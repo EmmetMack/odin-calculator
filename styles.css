@@ -1,0 +1,87 @@
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+    'header header header header'
+    'button-7 button-8 button-9 button-divide'
+    'button-4 button-5 button-6 button-multi'
+    'button-1 button-2 button-3 button-sub'
+    'button-0 button-enter button-clear button-add';
+    gap: 10px;
+    padding: 10px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+}
+
+.header {
+    grid-area: header;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+.button-7 {
+    grid-area: button-7;
+}
+.button-8  {
+    grid-area: button-8;
+}
+
+.button-9 {
+    grid-area: button-9;
+}
+.button-divide {
+    grid-area: button-divide;
+}
+
+.button-4 {
+    grid-area: button-4;
+}
+
+.button-5 {
+    grid-area: button-5;
+}
+
+.button-6 {
+    grid-area: button-6;
+}
+
+.button-multi {
+    grid-area: button-multi;
+}
+
+.button-1 {
+    grid-area: button-1;
+}
+
+.button-2 {
+    grid-area: button-2;
+}
+
+.button-3 {
+    grid-area: button-3;
+}
+
+.button-0 {
+    grid-area: button-0;
+}
+
+.button-sub {
+    grid-area: button-sub;
+}
+
+.button-add {
+    grid-area: button-add;
+}
+
+.button-enter {
+    grid-area: button-enter;
+}
+
+.button-clear {
+    grid-area: button-clear;
+}
