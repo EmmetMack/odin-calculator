@@ -6,7 +6,7 @@
     'button-7 button-8 button-9 button-divide'
     'button-4 button-5 button-6 button-multi'
     'button-1 button-2 button-3 button-sub'
-    'button-0 button-enter button-clear button-add';
+    'button-0 button-equal button-clear button-add';
     gap: 10px;
     padding: 10px;
     width: 50%;
@@ -78,8 +78,8 @@
     grid-area: button-add;
 }
 
-.button-enter {
-    grid-area: button-enter;
+.button-equal {
+    grid-area: button-equal;
 }
 
 .button-clear {
