@@ -31,3 +31,12 @@ function operate(operator, a, b) {
         return divide(a, b);
     }
 }
+
+let display_val = "";
+function updateDisplay() {
+    display_val += this.value;
+    const dis = document.querySelector('.display');
+    dis.textContent = display_val;
+}
+
+let number_buttons = document.querySelectorAll(".number").forEach(button => button.addEventListener('click', updateDisplay));
