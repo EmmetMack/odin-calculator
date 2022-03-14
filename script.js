@@ -74,3 +74,12 @@ function clickOperator() {
 
 let operators = document.querySelectorAll(".operator");
 operators.forEach(operatorButton => operatorButton.addEventListener('click', clickOperator));
+
+function clear() {
+    display_val = "Placeholder. Click buttons to begin populating with math.";
+    const dis = document.querySelector('.display');
+    dis.textContent = display_val;
+}
+
+let clearButton = document.querySelector('.button-clear');
+clearButton.addEventListener('click', clear);
