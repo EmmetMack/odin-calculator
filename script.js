@@ -36,15 +36,26 @@ let display_val = "";
 let a = ''; 
 let operand = '';  
 let b = ''; 
+let operations = [];
+let operatorClicked = false;
 
 
-function updateDisplay() {
+
+function numberPressed() {
+    if (!operatorClicked) {
+        a = this.value
+        operations.push([this.value, this.value]);
+    } else {
+        b = this.value
+        operations[-1][0] += this.value
+        operations[-1].push(this.value);
+    }
     display_val += this.value;
     const dis = document.querySelector('.display');
     dis.textContent = display_val;
 }
 
-let number_buttons = document.querySelectorAll(".number").forEach(button => button.addEventListener('click', updateDisplay));
+let number_buttons = document.querySelectorAll(".number").forEach(button => button.addEventListener('click', numberPressed));
 
 //store first number  before the operator, then save the operator, then store the second num after operator, then call operate when equal sign pressed
 
@@ -58,7 +69,7 @@ function enterOperation() {
     console.log('b', b);
     console.log('operator', operand);
     const dis = document.querySelector(".display");
-    let result = operate(operand, Number(a), Number(b));
+    let result = operate(operand, Number(a), Number(b)).toFixed(2);
     dis.textContent = result;
 }
 
