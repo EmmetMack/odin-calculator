@@ -42,7 +42,6 @@ let expression = [];
 
 //this function purely updates the display, no logic
 function numberPressed() {
-    console.log('prevOperator', prevOperator);
     if (prevOperator === '/' && this.value === '0') {
         alert("Silly goose you can't divide by zero!");
         return;
@@ -72,10 +71,9 @@ function clickEquals() {
    let operator = "";
    let operatorSeen = false;
    let tempExpression = expression;
-   console.log('tempExpression: ', tempExpression);
+   
    while ( tempExpression.includes(OPERATORS[0]) || tempExpression.includes(OPERATORS[1])||  tempExpression.includes(OPERATORS[2]) || tempExpression.includes(OPERATORS[3])) {
        let currDigit = tempExpression.shift();
-       console.log('currDigit: ', currDigit);
        if (!OPERATORS.includes(currDigit) && !operatorSeen) {
             a += currDigit;
        } else if (!OPERATORS.includes(currDigit) && operatorSeen) {
@@ -84,8 +82,6 @@ function clickEquals() {
             operator = currDigit;
             operatorSeen = true;
        } else {
-            console.log('a: ', a);
-            console.log('b: ', b);
             a = operate(operator, Number(a), Number(b));
             operator = currDigit;
             operatorSeen = true; //always adding to be from now on because a will just be populated with the math
@@ -96,8 +92,6 @@ function clickEquals() {
    }
    //run it again one last time with one number that's left in expression
    if (tempExpression.length > 0) {
-        console.log('a: ', a);
-        console.log('b: ', b);
         a = operate(operator, Number(a), Number(tempExpression.join('')));
         updateDisplayWithExpressionResult(a, []); //update the display string
    }
@@ -112,9 +106,7 @@ function clickEquals() {
 }
 
 function updateDisplayWithExpressionResult(a, parsedExpression) {
-    console.log('a in update', a);
     let intersection = expression.filter(x => parsedExpression.includes(x));
-    console.log('intersection in updateDisplay', intersection);
     const dis = document.querySelector('.display');
     dis.textContent = a + intersection.join('');
 }
