@@ -36,26 +36,35 @@ function operate(operator, a, b) {
 
 let display_val = "";
 let expression = [];
-let prevOperatorIndex = 0
-;
 
 //when the operator is pressed, find the number in front of it and add it to an array
 //then when the equal sign is pressed, loop through the array, and calculate the expression from left to right, updating the display each time
 
 //this function purely updates the display, no logic
 function numberPressed() {
+    console.log('prevOperator', prevOperator);
+    if (prevOperator === '/' && this.value === '0') {
+        alert("Silly goose you can't divide by zero!");
+        return;
+    } 
     display_val += this.value;
     const dis = document.querySelector('.display');
     dis.textContent = display_val;
     expression.push(this.value);
+    if (expression.includes(OPERATORS[0]) || expression.includes(OPERATORS[1]) ||  expression.includes(OPERATORS[2]) || expression.includes(OPERATORS[3])) {
+        document.querySelector('.button-equal').disabled = false;
+    } else {
+        document.querySelector('.button-equal').disabled = true;
+    }
+   
 }
 
 let number_buttons = document.querySelectorAll(".number").forEach(button => button.addEventListener('click', numberPressed));
 
 let equal = document.querySelector('.button-equal');
-equal.addEventListener('click', enterOperation);
+equal.addEventListener('click', clickEquals);
 
-function enterOperation() {
+function clickEquals() {
     //add check that there is an operator or not or something
    //now we have an array of individual numbers and opeators i.e ['2', '2', '-', '5', '+', '4']
    let a = "";
@@ -85,6 +94,7 @@ function enterOperation() {
             
        }
    }
+   //run it again one last time with one number that's left in expression
    if (tempExpression.length > 0) {
         console.log('a: ', a);
         console.log('b: ', b);
@@ -109,13 +119,14 @@ function updateDisplayWithExpressionResult(a, parsedExpression) {
     dis.textContent = a + intersection.join('');
 }
 
-
-
+let prevOperator = ""
 function clickOperator() {
     display_val += this.value;
+    prevOperator = this.value;
     const dis = document.querySelector(".display");
     dis.textContent = display_val;
     expression.push(this.value);
+    document.querySelector('.button-equal').disabled = true;
 }
 
 let operators = document.querySelectorAll(".operator");
