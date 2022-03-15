@@ -4,6 +4,8 @@
 // multiply
 // divide
 
+OPERATORS = ['/', '+', '-', '*'];
+
 function add(a, b) {
     return a + b;
 }
@@ -33,63 +35,97 @@ function operate(operator, a, b) {
 }
 
 let display_val = "";
-let a = ''; 
-let operand = '';  
-let b = ''; 
-let operations = [];
-let operatorClicked = false;
+let expression = [];
+let prevOperatorIndex = 0
+;
 
+//when the operator is pressed, find the number in front of it and add it to an array
+//then when the equal sign is pressed, loop through the array, and calculate the expression from left to right, updating the display each time
 
-
+//this function purely updates the display, no logic
 function numberPressed() {
-    if (!operatorClicked) {
-        a = this.value
-        operations.push([this.value, this.value]);
-    } else {
-        b = this.value
-        operations[-1][0] += this.value
-        operations[-1].push(this.value);
-    }
     display_val += this.value;
     const dis = document.querySelector('.display');
     dis.textContent = display_val;
+    expression.push(this.value);
 }
 
 let number_buttons = document.querySelectorAll(".number").forEach(button => button.addEventListener('click', numberPressed));
-
-//store first number  before the operator, then save the operator, then store the second num after operator, then call operate when equal sign pressed
 
 let equal = document.querySelector('.button-equal');
 equal.addEventListener('click', enterOperation);
 
 function enterOperation() {
-    let index = display_val.indexOf(operand);
-    b = display_val.slice(index + 1, display_val.length);
-    console.log("a", a);
-    console.log('b', b);
-    console.log('operator', operand);
-    const dis = document.querySelector(".display");
-    let result = operate(operand, Number(a), Number(b)).toFixed(2);
-    dis.textContent = result;
+    //add check that there is an operator or not or something
+   //now we have an array of individual numbers and opeators i.e ['2', '2', '-', '5', '+', '4']
+   let a = "";
+   let b = "";
+   let operator = "";
+   let operatorSeen = false;
+   let tempExpression = expression;
+   console.log('tempExpression: ', tempExpression);
+   while ( tempExpression.includes(OPERATORS[0]) || tempExpression.includes(OPERATORS[1])||  tempExpression.includes(OPERATORS[2]) || tempExpression.includes(OPERATORS[3])) {
+       let currDigit = tempExpression.shift();
+       console.log('currDigit: ', currDigit);
+       if (!OPERATORS.includes(currDigit) && !operatorSeen) {
+            a += currDigit;
+       } else if (!OPERATORS.includes(currDigit) && operatorSeen) {
+           b += currDigit
+       } else if (OPERATORS.includes(currDigit)&& !operatorSeen) {
+            operator = currDigit;
+            operatorSeen = true;
+       } else {
+            console.log('a: ', a);
+            console.log('b: ', b);
+            a = operate(operator, Number(a), Number(b));
+            operator = currDigit;
+            operatorSeen = true; //always adding to be from now on because a will just be populated with the math
+            b = ""; 
+            updateDisplayWithExpressionResult(a, tempExpression); //update the display string
+            
+       }
+   }
+   if (tempExpression.length > 0) {
+        console.log('a: ', a);
+        console.log('b: ', b);
+        a = operate(operator, Number(a), Number(tempExpression.join('')));
+        updateDisplayWithExpressionResult(a, []); //update the display string
+   }
+   //unshift from the beginning, 
+   //loop through, have a current string and add numbers to it until we get an operator,
+   // store the operator in a variable
+   //then loop through until we find another operator
+   //call operate with the stored a, b, and operator, then update display -- helper to update display
+   //then set a to the result of operate(), 
+   //find operator, store b as number before operator
+   //repeat until array is empty
+}
+
+function updateDisplayWithExpressionResult(a, parsedExpression) {
+    console.log('a in update', a);
+    let intersection = expression.filter(x => parsedExpression.includes(x));
+    console.log('intersection in updateDisplay', intersection);
+    const dis = document.querySelector('.display');
+    dis.textContent = a + intersection.join('');
 }
 
 
 
 function clickOperator() {
-    a = display_val;
     display_val += this.value;
-    operand = this.value;
     const dis = document.querySelector(".display");
     dis.textContent = display_val;
+    expression.push(this.value);
 }
 
 let operators = document.querySelectorAll(".operator");
 operators.forEach(operatorButton => operatorButton.addEventListener('click', clickOperator));
 
 function clear() {
-    display_val = "Placeholder. Click buttons to begin populating with math.";
+    display_val = "";
     const dis = document.querySelector('.display');
-    dis.textContent = display_val;
+    dis.textContent = "Placeholder. Click buttons to begin populating with math";
+    expression = [];
 }
 
 let clearButton = document.querySelector('.button-clear');
